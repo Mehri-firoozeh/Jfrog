@@ -1,0 +1,10 @@
+C:\Users\firoozeh\Source\Repos\ConsoleApp10\ConsoleApp10\bin\Debug\ConsoleApp10.exe.config
+C:\Users\firoozeh\Source\Repos\ConsoleApp10\ConsoleApp10\bin\Debug\ConsoleApp10.exe
+C:\Users\firoozeh\Source\Repos\ConsoleApp10\ConsoleApp10\bin\Debug\ConsoleApp10.pdb
+C:\Users\firoozeh\Source\Repos\ConsoleApp10\ConsoleApp10\bin\Debug\Newtonsoft.Json.dll
+C:\Users\firoozeh\Source\Repos\ConsoleApp10\ConsoleApp10\bin\Debug\Newtonsoft.Json.xml
+C:\Users\firoozeh\Source\Repos\ConsoleApp10\ConsoleApp10\obj\Debug\ConsoleApp10.csprojAssemblyReference.cache
+C:\Users\firoozeh\Source\Repos\ConsoleApp10\ConsoleApp10\obj\Debug\ConsoleApp10.csproj.CoreCompileInputs.cache
+C:\Users\firoozeh\Source\Repos\ConsoleApp10\ConsoleApp10\obj\Debug\ConsoleApp10.csproj.CopyComplete
+C:\Users\firoozeh\Source\Repos\ConsoleApp10\ConsoleApp10\obj\Debug\ConsoleApp10.exe
+C:\Users\firoozeh\Source\Repos\ConsoleApp10\ConsoleApp10\obj\Debug\ConsoleApp10.pdb
