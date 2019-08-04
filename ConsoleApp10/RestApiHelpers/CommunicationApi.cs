@@ -3,17 +3,16 @@ using System.Text;
 using System.Net.Http;
 using Newtonsoft.Json;
 using ConsoleApp10.RestApiHelpers.Models;
+using ConsoleApp10.Configuration;
 
 namespace ConsoleApp10.RestApiHelpers
 {
     public class CommunicationApi
     {
-        public CommunicationApi()
+        public CommunicationApi(IConfig configuration)
         {
-            client = new HttpClient();
-            byte[] cred = UTF8Encoding.UTF8.GetBytes(credentialsFromConnectionString);
-            client.DefaultRequestHeaders.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
+            config = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            Initialize();
 
         }
 
@@ -23,8 +22,9 @@ namespace ConsoleApp10.RestApiHelpers
         /// <returns></returns>
         public Repsitory PostRepositories(string repository)
         {
+
             string data = string.Format("items.find({{\"repo\":{{\"$eq\":\"{0:S}\"}}}})", repository);
-            var url = baseUrlFromConnectionString + "search/aql";
+            var url = config.GetBaseUrl() + "search/aql";
             try
             {
                 HttpContent content = new StringContent(data, UTF8Encoding.UTF8, "text/plain");
@@ -32,7 +32,7 @@ namespace ConsoleApp10.RestApiHelpers
                 if (postResponse.IsSuccessStatusCode)
                 {
                     var messageContent = postResponse.Content.ReadAsStringAsync().Result;
-                     return JsonConvert.DeserializeObject<Repsitory>(messageContent);
+                    return JsonConvert.DeserializeObject<Repsitory>(messageContent);
                 }
 
                 return new Repsitory();
@@ -54,7 +54,7 @@ namespace ConsoleApp10.RestApiHelpers
         {
             //TODO: Add List of parameter to pass GroupId, ArtifactId, Version & Classifier.
             HttpClient client = new HttpClient();
-            var url = baseUrlFromConnectionString + $"search/gavc?g=org.jfrog.test&repos={name} ";
+            var url = config.GetBaseUrl() + $"search/gavc?g=org.jfrog.test&repos={name} ";
             try
             {
                 var result = client.GetStringAsync(url).Result;
@@ -75,7 +75,7 @@ namespace ConsoleApp10.RestApiHelpers
         /// <returns></returns>
         public ArtifactDetail GetAtrifactDetails(string name)
         {
-            var url = baseUrlFromConnectionString + $"storage/{name}?stats";
+            var url = config.GetBaseUrl() + $"storage/{name}?stats";
             try
             {
                 var result = client.GetStringAsync(url).Result;
@@ -88,8 +88,24 @@ namespace ConsoleApp10.RestApiHelpers
             }
         }
 
-        private string baseUrlFromConnectionString = "http://34.67.247.50/artifactory/api/";
-        private string credentialsFromConnectionString = "admin:2JvFZt70g1";
+        public void Dipose()
+        {
+            client.Dispose();
+        }
+
+        private void Initialize()
+        {
+            client = new HttpClient();
+            
+            var credentialsFromConfig = string.Format("{0}:{1}", config.GetUserName(), config.GetPassword());
+
+            byte[] cred = UTF8Encoding.UTF8.GetBytes(credentialsFromConfig);
+            client.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
+            
+        }
+
+        private readonly IConfig config;
         private HttpClient client { get; set; }
     }
 }
